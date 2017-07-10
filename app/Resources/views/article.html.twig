@@ -1,0 +1,79 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    
+<section class="content clearfix">
+
+    <nav class="nav-slide">
+        <a class="prev" href="content.php?idpost=<?=$nav[1];?>">
+            <i class="fa fa-chevron-right fa-3x"></i>
+        </a>
+        <a class="next" href="content.php?idpost=<?=$nav[0]?>">
+            <i class="fa fa-chevron-left fa-3x"></i>
+        </a>
+    </nav>
+
+    <div class="content-centered">
+        <div class="topic clearfix">
+            <figure><img src="../img{{asset(article.imagePost)}}"></figure>
+            <article class="clearfix">
+                <h2>{{ article.titlePost }}</h2>
+
+                <div class="user-comments">
+                    <h2> <a href="{{path('profil',{'id':article.users.id})}}">{{article.users.username}}</a></h2>
+                    <h4>{{article.created|date('Y-m-d')}}</h4>
+                </div>
+
+                <p>{{article.textePost}}</p>
+            </article>
+        </div>
+        <!--Commentaires des autres utilisateurs-->
+        <aside class=" comments-submit clearfix">
+            <h2>Commentaires</h2>
+            {% if is_granted('ROLE_USER') %}
+
+                {{ form_start(form, {'attr': {'id': 'form-comm'}} ) }}
+                    {{ form_row(form.texteCommentaire, {'attr': {'placeholder':'Ajouter un commentaire', 'name': 'text-comm'}} ) }}
+                    {{ form_row(form.post, {'value': article.id}) }}
+                    {{ form_row(form.save, {'name': 'comment'}) }}
+                    {{ form_rest(form) }}
+                {{ form_end(form) }}
+
+            {% else %}
+                 Il faut être logger pour poster un commentaire !
+            {% endif %}
+        </aside>
+
+        <div class="comments clearfix">
+
+            {% for comm in article.commentaires %}
+
+                    <article class="comments-box clearfix">
+                        <div class="user-comments">
+                            <div id="id-user-box">
+                                <img src="../img/{{comm.users.photo}}" alt="{{comm.users.username}}" height="64" width="64"/>
+                                <h2> {{comm.users.username}} </h2>
+                                <h4>{{comm.created|date('d-m-Y')}}</h4>
+                            </div>
+                            <p>{{comm.texteCommentaire}}</p>
+                            {% if app.user.id is defined %}
+                                {% if app.user.id == comm.users.id %}
+                                    <p><a href="{{path('removecom', {id:comm.id})}}">Supprimer</a></p>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                    </article>
+
+            {% endfor %}
+
+        </div>
+
+</section>
+
+
+
+
+{% endblock %}
+
+{% block stylesheets %}
+{% endblock %}

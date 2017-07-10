@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+<section class="page-content profil clearfix ">
+	<article class="users-panel">
+		<div class="info-box dark">
+			<img src="../img/{{user.photo}}" style="width:65px;height:65px;border-radius:50%;"/>
+
+			
+				</div>
+				<div class="info-box dark">
+					<h4>{{user.username}}</h4>
+					
+						</div>
+						<div class="info-box">
+							<h4>{{user.email}}</h4>
+							
+								</div>
+								<div class="info-box">
+									<h4>{{user.birthday|date('d-m-Y')}}</h4>
+									
+										</div>
+												<div class="info-box meta">
+													<h4>Post de {{user.username}} :</h4>
+													<br/>
+													<br/>
+													<br/>
+													
+													<ul>
+													{% for post in user.post %}
+														<li>{{post.created|date('d-m-Y')}} // <a href="{{path('article',{'id':post.id})}}">{{post.titlePost}}</a></li>
+														<li>(<a href="">Supp.</a>)</li>
+													{% endfor %}														
+													</ul>
+												</div>
+												<div class="info-box meta">
+													
+												 	<h4>Nb de commentaires de {{user.username}} : {{user.commentaires.count}}</h4> 
+												</div>
+												<div class="info-box meta">
+													<h4>Inscrit depuis le {{ user.inscription|date('d-m-Y') }}</h4>
+												</div>
+												<div class="info-box meta">
+													<h4>Dernière connexion le {{ user.lastConnexion|date('d-m-Y h:m:s') }}</h4>
+												</div>
+
+												</article>
+											</section>
+{% endblock %}

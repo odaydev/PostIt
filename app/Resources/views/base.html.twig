@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="fr">
+    
+    <head>
+        
+        <meta charset="UTF-8" />
+        
+        <title>{% block title %}Welcome!{% endblock %}</title>
+
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!--Fonts-->
+        <link href='https://fonts.googleapis.com/css?family=Muli' rel='stylesheet' type='text/css'>
+        <link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="{{asset('css/style.css')}}"/>
+        <link rel="stylesheet" href="{{asset('css/reset.css')}}"/>
+        <!---->
+        {% block stylesheets %}
+            {% stylesheets 'css/*'
+                filter='cssrewrite'
+            %}
+            <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
+            {% endstylesheets %}
+        {% endblock %}
+
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+    
+    </head>
+    
+    <body>
+        <div class="wrap">
+    
+        <header id="top-page" class="container clearfix">
+                <div id="top-header" class="center">
+                    <h1 class="clearfix">
+                        <a id="logo" href="{{path('home')}}">
+                            <img src="{{asset('img/Logo.png')}}" alt="Shoot | Logo"/>
+                            <span class="shoot">Post it!</span>
+                        </a>
+                    </h1>
+                    <i class="left-menu"><span></span></i>                  
+                    <div id="search">
+                        <i class="fa fa-search" id="search-icon"></i>                       
+                    </div>
+                    <div id="right-menu">
+                    {# {{ form_start(form) }}
+{{ form_widget(form) }}
+{{ form_end(form) }}  #}   
+                     
+                    </div>
+                </div>
+                <nav id="top-nav" class="main-menu clearfix">
+                    <ul>
+                        <li><a class="center" href="{{path('home')}}" title="home">Home<i class="fa fa-arrow-right"></i></a></li>
+                        <li><a class="center" href="pages.php" title="pages">Pages<i class="fa fa-arrow-right"></i></a></li>
+                        <!--Visible seulement une fois logger-->
+
+                        {% if is_granted('ROLE_USER') %}
+
+                        <li><a class="center" href="{{path('profil', {id:app.user.id})}}" title="profil">Profil<i class="fa fa-arrow-right"></i></a></li>
+                        {% endif %}
+                        <!--Disparait si la personne est logger-->
+                        <!--Apparait une fois logger, permet de créer un topic-->
+                        {% if is_granted('ROLE_USER') %}
+                            <li><a class="center" href="{{path('addPost')}}" title="inscription">Post<i class="fa fa-arrow-right"></i></a></li>
+                        {% endif %}
+                        
+                        {% if is_granted('ROLE_USER') %}
+                            <li><a class="center" href="{{path('logout')}}" title="log">LogOut<i class="fa fa-arrow-right"></i></a></li>
+                        {% else %}
+                            <li><a class="center" href="{{path('register')}}" title="inscription">Inscription<i class="fa fa-arrow-right"></i></a></li>
+                            <li><a class="center" href="{{path('login')}}" title="log">Log<i class="fa fa-arrow-right"></i></a></li>
+                        {% endif %}
+                        
+                        {% if is_granted('ROLE_ADMIN') %}
+                        <li><a class="center" href="{{path('admin')}}" title="admin">Admin<i class="fa fa-arrow-right"></i></a></li>
+                        {% endif %}
+                    </ul>
+
+                    <!-- Affichage des erreurs  -->
+                   
+                </nav>
+        </header>
+
+        <form id="search-field">
+            <input type="search" name="search" id="search-input" placeholder="Search"/>
+            <span id="reslut_search">   </span> 
+        </form>
+
+        {% block body %}{% endblock %}
+
+        <section id="second-part" class="clearfix">
+            <div id="article-second-part">
+               <article id="about">
+                    <div class="article-content">
+                        <h3>About MFF</h3>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                            consequat.</p>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                        tempor incididunt ut labore et dolore magna aliqua.</p>
+                    </div>
+                </article>
+                <article id="keep-in-touch">
+                    <div class="article-content">
+                        <h3>Keep in touch</h3>
+                        <aside id="social-connect">
+                            <a href="" title="Shoot facebook"><i class="fa fa-facebook-official"></i></a>
+                            <a href="" title="Shoot twitter"><i class="fa fa-twitter"></i></a>
+                            <a href="https://plus.google.com/u/0/107035950534176610317" target="_blank" title="Shoot google+"><i class="fa fa-google-plus"></i></a>
+                            <a href="" title=" Shoot dribbble"><i class="fa fa-dribbble"></i></a>
+                            <a href="" title="Shoot behance"><i class="fa fa-behance"></i></a>
+                        </aside>
+                        <aside id="info">
+                            <div class="contact-info">
+                                <img src="{{ asset('img/location-icon.png') }}" alt="adress" height="24" width="16"/>
+                                <h4>No 200, Av Balboa, Panamá, Panama</h4>
+                            </div>
+                            <div class="contact-info">
+                                <img src="img/phone-icon.png" alt="phone number" height="24" width="16"/>
+                                <h4>+44 (0) 800 765 4321</h4>
+                            </div>
+                            <div class="contact-info">
+                                <img src="img/mail-icon.png" alt="adress" height="24" width="16"/>
+                                <h4>mff.wf3@gmail.com</h4>
+                            </div>
+                        </aside>
+                    </div>
+                </article>
+            </div>
+        </section>
+        </div>
+
+    </body>
+
+    {% block javascripts %}
+    <!--{% javascripts
+                    'js/*'
+                    %}
+                    <script type="text/javascript" src="{{asset_url}}"></script>
+                    {% endjavascripts %}-->
+    <script type="text/javascript" src="{{asset('js/jquery-3.2.1.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/bootstrap.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/moment.min.js')}}"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    <script type="text/javascript">
+        $( function() {
+            $( ".datepicker" ).datepicker({
+                minDate: new Date(1950, 1 - 1, 1),
+                changeMonth: true,
+                changeYear: true
+            });
+        } );
+    </script>
+
+    {% endblock %}
+
+</html>

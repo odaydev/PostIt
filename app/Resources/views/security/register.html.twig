@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+
+{%  block body %}
+
+<section class="page-content inscription">
+	{{ form_start(form, {'attr': {'id': 'inscription-form', 'class': 'topics-centered'}} ) }}
+	<aside id="inscription-aside">
+		<img src="{{asset('img/register.png')}}" alt="Shoot | Logo"/>
+		<h1>Welcome on Post it !</h1>
+	</aside>
+	{{ form_widget(form) }}
+	{{ form_end(form) }}
+</section>
+
+{% endblock %}
+
+
+

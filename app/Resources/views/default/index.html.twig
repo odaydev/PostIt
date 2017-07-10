@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <section id="main-part" class="clearfix">
+
+    {% for article in articles %}
+
+        <figure class="img-content">
+                    <img src="img/{{ asset(article.imagePost) }}" alt="" width="100%" height="100%" />
+                <figcaption class="hover-description">
+                    <div class="centered">
+                        <div class="always-visible clearfix">
+                            <h2></h2>
+                            <img src="img/{{ asset(article.users.photo) }}" id="toficon" alt=""/>
+                            <p><a href="{{path('profil', {id:article.users.id})}}">{{article.users.username}}</a></p>
+                            <i class="fa fa-heart-o" id="hearticon" name="" alt="j'aime" height="16" width="14"></i>
+                            <p id="like">{{article.likePost}}</p>
+                            <img src="img/message-icon.png" id="messageicon"alt="commentaire" height="16" width="14"/>
+                            <p>{{ article.commentaires.count  }}</p>
+                        </div>
+                        <!--Contenu caché, apparait au survol-->
+                        <div class="hidden-content clearfix">
+                            {{article.textePost | slice(0,150) }}...
+                                                        }
+                        </div>
+                        <a class="more-btn" href="{{path('article',{'id':article.id})}}">Read More</a>
+
+                    </div>
+                </figcaption>
+            </figure>
+            <!-- <p>{% for comm in article.commentaires %}
+                        {{ comm.texteCommentaire }}
+                    {% endfor %}</p> -->
+    {% endfor %}
+
+    </section>
+
+
+    
+{% endblock %}
+
+{% block stylesheets %}
+{% endblock %}
